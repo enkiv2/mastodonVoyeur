@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import time
 from mastodon import Mastodon
 
 def td(x):
@@ -77,9 +78,14 @@ def prettyPrintToots(toots):
 		prettyPrintToot(toot)
 	print("</table>")
 
+if(len(sys.argv)<=3):
+	sys.stderr.write("Usage: MastoVoyeur client_token_file user_token_file api_base_url\nSee https://mastodonpy.readthedocs.io/en/latest/ for information about how to create token files\n")
+	sys.exit(1)
+
 mastodon=Mastodon(sys.argv[1], access_token=sys.argv[2], api_base_url=sys.argv[3])
 tl=mastodon.timeline_local()
 print("<html><head><title>"+sys.argv[3]+" voyeur</title></head><body>")
 print("<h1>"+link(sys.argv[3], sys.argv[3])+" voyeur</h1><br />")
+print("Last updated on "+time.asctime())
 prettyPrintToots(tl)
 print("</body></html>")
