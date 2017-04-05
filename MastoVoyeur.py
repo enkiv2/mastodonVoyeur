@@ -56,6 +56,10 @@ def prettyPrintTootMedia(toot):
 			print(hr(""))
 def prettyPrintTootBody(toot):
 	print("<td>")
+	if(len(toot["mentions"])>0):
+		for item in toot["mentions"]:
+			print(" "+link(item["url"], "@"+item["username"]))
+		print(hr(""))
 	if(toot["spoiler_text"]):
 		print(hr("CW: <b>"+toot["spoiler_text"]+"</b>"))
 	else:
@@ -63,7 +67,7 @@ def prettyPrintTootBody(toot):
 		prettyPrintTootMedia(toot)
 	if(len(toot["tags"])>0):
 		print(hr(" #".join(toot["tags"])))
-
+	print("At "+str(toot["created_at"]))
 	print("<a href=\""+toot["url"]+"\">permalink</a> ")
 	print("("+str(toot["reblogs_count"])+" reblogs) ("+str(toot["favourites_count"])+" favs)")
 	print("</td>")
