@@ -1,7 +1,13 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import sys
 import time
+import codecs
+
+UTF8Writer = codecs.getwriter('utf8')
+sys.stdout = UTF8Writer(sys.stdout)
+
 from mastodon import Mastodon
 
 def td(x):
@@ -66,7 +72,9 @@ def prettyPrintTootBody(toot):
 		print(hr(toot["content"]))
 		prettyPrintTootMedia(toot)
 	if(len(toot["tags"])>0):
-		print(hr(" #".join(toot["tags"])))
+		for item in toot["tags"]:
+			print(" "+link(item["url"], "#"+item["name"]))
+		print(hr(""))
 	print("At "+str(toot["created_at"]))
 	print("<a href=\""+toot["url"]+"\">permalink</a> ")
 	print("("+str(toot["reblogs_count"])+" reblogs) ("+str(toot["favourites_count"])+" favs)")
@@ -87,7 +95,7 @@ if(len(sys.argv)<=3):
 	sys.exit(1)
 
 mastodon=Mastodon(sys.argv[1], access_token=sys.argv[2], api_base_url=sys.argv[3])
-tl=mastodon.timeline_local()
+tl=mastodon.timeline_local(limit=1000)
 print("<html><head><title>"+sys.argv[3]+" voyeur</title></head><body>")
 print("<h1>"+link(sys.argv[3], sys.argv[3])+" voyeur</h1><br />")
 print(hr(br([
