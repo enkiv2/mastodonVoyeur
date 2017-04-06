@@ -55,7 +55,7 @@ def prettyPrintTootMedia(toot):
 	if("media_attachments" in toot):
 		print("<br />")
 		if(toot["sensitive"]):
-			print(hr(link(toot[url], "SENSITIVE MEDIA: CLICK TO VIEW")))
+			print(hr(link(toot["url"], "SENSITIVE MEDIA: CLICK TO VIEW")))
 		else:
 			for item in toot["media_attachments"]:
 				print(link(item["url"], "<img src=\""+item["preview_url"]+"\" />"))
